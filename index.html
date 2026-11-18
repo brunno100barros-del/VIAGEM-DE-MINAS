@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minas Gerais 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;700&family=Dancing+Script:wght@700&display=swap">
+<style>
+/* Direção: pôster de estrada (Route 66) + mapa com paradas numeradas. Tipografia gigante, terra e pôr do sol. */
+:root{
+  --ink:#1C1814; --cream:#F5EBD3; --sun:#FFD84D; --rust:#B8502E; --paper:#FBF5E6; --sand:#E4D6B4;
+  --font-display:'Anton','Arial Narrow',Arial,sans-serif; --font-body:'DM Sans',Arial,sans-serif; --font-script:'Dancing Script','Brush Script MT',cursive;
+  --sky:linear-gradient(180deg,#2B2140 0%,#8E4A6B 42%,#E8876A 72%,#FFC971 100%);
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;background:var(--ink)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.car{animation:none!important}}
+body{overflow-x:clip;background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:18px;line-height:1.5}
+h1,h2,h3,h4{text-wrap:balance}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1;text-transform:uppercase;letter-spacing:.01em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--rust);outline-offset:3px}
+.eyebrow{font-size:14px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-bottom:14px}
+.chip{display:inline-block;background:var(--sun);color:var(--ink);font-weight:700;padding:6px 16px;font-size:16px;letter-spacing:.04em}
+.disp{font-family:var(--font-display);text-transform:uppercase}
+.sm{font-size:16px}
+section{padding:72px 0}
+section>.wrap>h2.big{font-size:clamp(48px,9vw,120px);margin-bottom:36px}
+
+/* nav */
+.top{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--cream)}
+.top .wrap{display:flex;gap:20px;align-items:center;justify-content:space-between;padding-top:10px;padding-bottom:10px}
+.logo{font-family:var(--font-display);font-size:26px;text-decoration:none;color:var(--sun);letter-spacing:.04em;white-space:nowrap}
+.top nav{display:flex;gap:4px;overflow-x:auto}
+.top nav a{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:8px 12px;white-space:nowrap;border-radius:6px}
+.top nav a:hover{background:#3A322C}
+
+/* hero */
+.hero{position:relative;background:var(--sky);color:#FFF6DC;padding:72px 0 0;overflow:hidden}
+.hero .wrap{position:relative;z-index:2}
+.hero .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hero h1{font-size:clamp(76px,17.5vw,290px);line-height:.95;margin:28px 0 0;white-space:nowrap;color:var(--cream)}
+.script{font-family:var(--font-script);font-weight:700;font-size:clamp(38px,7vw,104px);line-height:1.1;margin-top:8px}
+.tagline{font-size:clamp(12px,1.6vw,18px);font-weight:700;letter-spacing:.2em;margin-top:18px}
+.hero .chips{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.hero .chips .chip.alt{background:var(--ink);color:var(--sun)}
+.hero .art{display:block;width:100%;height:clamp(230px,32vw,440px);margin-top:-30px;position:relative;z-index:1}
+.car{animation:drive 26s linear infinite}
+@keyframes drive{from{transform:translateX(-1750px)}to{transform:translateX(780px)}}
+
+/* foco */
+.foco-h{font-size:clamp(40px,6.4vw,92px);line-height:1.02;max-width:1100px;margin-bottom:36px}
+.cards4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.c4{background:var(--ink);color:var(--cream);padding:28px 24px 30px;border-radius:18px}
+.numtag{display:inline-block;font-family:var(--font-display);font-size:30px;background:var(--sun);color:var(--ink);padding:4px 14px;line-height:1.1}
+.c4 h3{font-size:30px;margin:16px 0 10px}
+.c4 p{font-size:17px}
+.newchip{display:inline-block;background:var(--rust);color:var(--cream);font-weight:700;font-size:14px;letter-spacing:.08em;padding:4px 12px;border-radius:99px;text-transform:uppercase}
+
+/* rota */
+.rota{background:var(--sun)}
+.rota .grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:900px){.rota .grid{grid-template-columns:1fr}}
+.map{position:relative;background:var(--ink);border-radius:26px;overflow:hidden;aspect-ratio:1000/940}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);background:none;border:0;padding:0;cursor:pointer;color:var(--ink)}
+.pin .pn{display:grid;place-items:center;width:clamp(30px,4.6vw,46px);height:clamp(30px,4.6vw,46px);border-radius:50%;background:var(--sun);border:4px solid var(--ink);font-family:var(--font-display);font-size:clamp(16px,2.4vw,24px);box-shadow:0 0 0 3px var(--cream)}
+.pin[aria-pressed="true"] .pn{background:var(--cream);box-shadow:0 0 0 5px var(--rust)}
+.pin em{position:absolute;top:50%;transform:translateY(-50%);font-style:normal;font-family:var(--font-display);font-size:clamp(12px,2vw,20px);background:var(--cream);padding:3px 10px;white-space:nowrap;letter-spacing:.03em}
+.pin.r em{left:100%;margin-left:8px}.pin.l em{right:100%;margin-right:8px}.pin.b em{top:100%;left:50%;transform:translateX(-50%);margin-top:6px}
+.pin.sl{margin:-10px 0 0 10px}.pin.bh{margin:8px 0 0 -8px}
+.cnf,.flight{position:absolute;font-size:clamp(11px,1.6vw,15px);font-weight:700;letter-spacing:.12em;color:var(--cream)}
+.cnf{transform:translate(-105%,-50%);margin-left:-6px}
+.flight{left:3%;top:2.5%}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;font-size:15px;font-weight:500}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{display:inline-block;width:30px;border-top:5px dashed}
+.panel{background:var(--paper);border-radius:22px;padding:26px 26px 30px;border-top:10px solid var(--ink)}
+.ptag{display:inline-block;font-family:var(--font-display);font-size:26px;background:var(--sun);padding:4px 16px}
+.pname{background:var(--ink);color:var(--cream);padding:16px 22px;margin:14px 0 16px}
+.pname h3{font-size:clamp(30px,4vw,48px)}
+.ft{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-weight:700}
+.ft b{background:var(--ink);color:var(--cream);font-family:var(--font-display);font-weight:400;font-size:24px;padding:2px 12px}
+.ft span{font-size:13px;letter-spacing:.14em}
+.pbase{margin-top:14px}.pleg{margin-top:6px;color:#4A4036}
+.plist{list-style:none;padding:0;margin:16px 0 0}
+.plist li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:2px dotted #B9A987;font-weight:500}
+.plist li i{font-style:normal;color:var(--rust)}
+.plinks{display:flex;flex-direction:column;margin-top:14px}
+.plinks a{background:var(--ink);color:var(--cream);text-decoration:none;font-weight:700;padding:11px 16px;margin-top:6px}
+.plinks a:hover{background:var(--rust)}
+
+/* dias */
+.day{border-top:3px dashed #BFAE8A}
+.dayhead{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.dayleft{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.tag{font-family:var(--font-display);font-size:30px;background:var(--sun);padding:4px 18px;line-height:1.2}
+.dtxt{font-weight:700;letter-spacing:.08em;font-size:17px}
+.nav{display:flex;gap:8px}
+.n{width:40px;text-align:center;padding:5px 0;font-family:var(--font-display);font-size:22px;background:var(--sand);border-radius:6px}
+.n.on{background:var(--ink);color:var(--sun)}
+.cityblock{background:var(--ink);color:var(--cream);padding:16px 30px;margin-top:22px;display:inline-block;max-width:100%}
+.cityblock h2{font-size:clamp(40px,8.2vw,118px);line-height:1}
+.pern{margin:16px 0 22px;font-size:18px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.dcol{background:var(--paper);border-top:10px solid var(--ink);padding:22px 24px 26px}
+.dcol h3{font-size:30px;color:var(--rust);margin-bottom:10px}
+.spots{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;margin-top:26px}
+.spot{background:var(--ink);color:var(--cream);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.scene{display:block;width:100%;height:auto;aspect-ratio:400/260}
+.spot-b{padding:14px 16px 18px}
+.spot-tag{font-size:12px;font-weight:700;letter-spacing:.2em;color:var(--sun)}
+.spot h4{font-family:var(--font-display);font-weight:400;font-size:24px;line-height:1.05;text-transform:uppercase;margin:6px 0 8px}
+.spot-b p:last-child{font-size:15px;line-height:1.4}
+
+/* logística */
+.dark{background:var(--ink);color:var(--cream)}
+.dark .eyebrow{color:var(--sun)}
+.passes{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px}
+.pass{background:var(--cream);color:var(--ink);padding:28px;border-radius:20px}
+.pass h3{font-size:36px;margin:14px 0 18px}
+.route{display:flex;align-items:center;gap:14px}
+.code{font-family:var(--font-display);font-size:68px;line-height:1}
+.pass .city{font-size:15px;font-weight:500}
+.arr{width:48px;flex:none}
+.time{font-family:var(--font-display);font-size:42px;color:var(--rust);margin:20px 0 4px}
+.stays{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:22px;margin-top:44px}
+@media (max-width:900px){.stays{grid-template-columns:1fr}}
+.stay{display:flex;justify-content:space-between;gap:14px;align-items:center;background:var(--paper);color:var(--ink);padding:16px 22px;border-radius:14px;margin-bottom:12px;flex-wrap:wrap}
+.stay-l{display:flex;gap:16px;align-items:center}
+.stay h3{font-size:28px}.stay p{font-weight:500}
+.stay-r{text-align:right}.stay-r .disp{font-size:26px;color:var(--rust)}
+.carcard{background:var(--sun);color:var(--ink);padding:30px;border-radius:20px}
+.carcard h3{font-size:44px;margin:12px 0 16px}
+.carcard p{margin-bottom:12px}
+
+/* estrada */
+.roads{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.road{background:var(--paper);border-top:10px solid var(--ink);padding:24px}
+.road h3{font-size:26px;margin-bottom:10px}
+.road .big{font-family:var(--font-display);font-size:38px;color:var(--rust);line-height:1.05;margin-bottom:12px}
+.road p{font-size:16px;margin-bottom:10px}
+.road.dk{background:var(--ink);color:var(--cream);border-top-color:var(--sun)}
+.road.dk h3{color:var(--sun)}
+
+/* custos */
+.tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tabs button{font:inherit;font-weight:700;letter-spacing:.06em;padding:10px 18px;border:2px solid var(--cream);background:transparent;color:var(--cream);border-radius:99px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--sun);color:var(--ink);border-color:var(--sun)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:14px 16px;border-bottom:1px solid #4A4036;font-size:18px}
+thead th{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--sun)}
+tbody th{font-weight:700}
+tfoot th,tfoot td{background:var(--sun);color:var(--ink);font-weight:700;border-bottom:0}
+.total{font-family:var(--font-display);font-size:clamp(64px,12vw,150px);color:var(--sun);line-height:1;margin-bottom:12px}
+.bars{display:grid;gap:26px;margin-top:24px}
+.bt{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.bt h3{font-size:26px}.val{font-size:26px;color:var(--sun)}
+.track{height:24px;background:#3A322C;border-radius:12px;margin:8px 0}
+.bar{height:100%;background:var(--sun);border-radius:12px}
+.note{margin-top:18px;color:#D9CBA8;font-size:16px}
+
+/* checklist */
+.sunbg{background:var(--sun)}
+.ck2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.ck{background:var(--ink);color:var(--cream);padding:30px;border-radius:22px}
+.ck h3{font-size:42px;color:var(--sun);margin-bottom:16px}
+.ck p{margin-bottom:14px}.ck b{color:var(--sun)}
+
+/* rodapé */
+.end{position:relative;background:var(--sky);color:#FFF6DC;padding:64px 0 0;overflow:hidden}
+.end .script{font-size:clamp(60px,14vw,220px)}
+.end .art{display:block;width:100%;height:clamp(200px,28vw,380px);margin-top:-20px}
+.end p.who{font-family:var(--font-display);font-size:clamp(28px,5vw,64px);text-transform:uppercase}
+.end small{display:block;margin-top:10px;font-size:14px;letter-spacing:.12em;font-weight:700}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="logo" href="#topo">MINAS 26</a>
+<nav aria-label="Seções"><a href="#rota">Rota</a><a href="#dias">Dias</a><a href="#logistica">Logística</a><a href="#estrada">Estrada</a><a href="#custos">Custos</a><a href="#checklist">Checklist</a></nav></div></header>
+
+<header class="hero" id="topo"><div class="wrap">
+<div class="row"><p class="eyebrow">BRUNNO &amp; LETÍCIA</p><p class="eyebrow">18 A 26 DE DEZEMBRO · 2026</p></div>
+<h1>MINAS GERAIS</h1>
+<p class="script">9 dias, 5 paradas, 1 estrada</p>
+<p class="tagline">ARQUITETURA · ENGENHARIA · NATUREZA · FUTEBOL · TRADIÇÃO MINEIRA</p>
+<div class="chips"><span class="chip" id="count">PVH → CNF · 18/12 às 02:25</span><span class="chip alt">Novo: volta rápida em Varginha</span></div>
+</div><svg class="art" viewBox="0 0 1920 540" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Serras de Minas ao pôr do sol, com uma estrada e um carro amarelo" xmlns="http://www.w3.org/2000/svg"><circle cx="1500" cy="230" r="120" fill="#FFD84D"/>
+<path d="M0 260 L180 180 L330 250 L520 130 L700 240 L900 160 L1100 260 L1300 150 L1500 250 L1700 170 L1920 240 L1920 540 L0 540Z" fill="#6B3A55"/>
+<path d="M0 340 L240 250 L420 330 L640 230 L860 340 L1060 270 L1260 350 L1480 260 L1700 350 L1920 290 L1920 540 L0 540Z" fill="#3E2338"/>
+<path d="M0 420 L200 360 L400 420 L620 350 L840 430 L1100 380 L1360 440 L1600 380 L1920 430 L1920 540 L0 540Z" fill="#241520"/>
+<rect x="0" y="470" width="1920" height="70" fill="#1C1814"/>
+<line x1="0" y1="505" x2="1920" y2="505" stroke="#F5EBD3" stroke-width="6" stroke-dasharray="60 40"/><g class="car"><g transform="translate(1330 356)"><path d="M0 110 L0 78 Q0 52 28 50 L70 46 L110 8 Q122 0 140 0 L250 0 Q272 0 284 18 L314 48 Q350 54 350 84 L350 110Z" fill="#FFD84D"/><path d="M112 20 L136 14 L196 14 L196 46 L84 46Z" fill="#3A2A33"/><path d="M210 14 L250 14 Q262 14 270 26 L286 46 L210 46Z" fill="#3A2A33"/><circle cx="86" cy="112" r="36" fill="#1C1814"/><circle cx="86" cy="112" r="13" fill="#F5EBD3"/><circle cx="274" cy="112" r="36" fill="#1C1814"/><circle cx="274" cy="112" r="13" fill="#F5EBD3"/></g></g></svg></header>
+
+<main>
+<section id="foco"><div class="wrap">
+<p class="eyebrow">FOCO DA EXPEDIÇÃO</p>
+<h2 class="foco-h">ARQUITETURA, ENGENHARIA HISTÓRICA, NATUREZA, ESPORTE E TRADIÇÃO MINEIRA</h2>
+<div class="cards4">
+<article class="c4"><span class="numtag">01</span><h3>BELO HORIZONTE</h3><p>Modernismo e a paixão pelo futebol, com tour na Arena MRV.</p></article>
+<article class="c4"><span class="numtag">02</span><h3>OURO PRETO</h3><p>O acervo colonial e a engenharia histórica da mineração.</p></article>
+<article class="c4"><span class="numtag">03</span><h3>SÃO THOMÉ DAS LETRAS</h3><p>Misticismo natural, cachoeiras e pôr do sol na Casa da Pirâmide.</p></article>
+<article class="c4"><span class="numtag">04</span><h3>VARGINHA</h3><p>Uma volta rápida pela cidade do ET, só para conhecer.</p></article>
+<article class="c4"><span class="numtag">05</span><h3>SANTA LUZIA</h3><p>O conforto familiar natalino, na casa da família.</p></article>
+</div></div></section>
+
+<section class="rota" id="rota"><div class="wrap">
+<p class="eyebrow">PARADAS E TRECHOS</p>
+<h2 class="big">A ROTA</h2>
+<div class="grid">
+<div><div class="map"><svg viewBox="0 0 1000 940" role="img" aria-label="Mapa esquemático da rota: Confins, Belo Horizonte, Ouro Preto, São Thomé das Letras, Varginha e Santa Luzia" xmlns="http://www.w3.org/2000/svg">
+<g fill="none" stroke="#3A322C" stroke-width="2"><ellipse cx="317" cy="832" rx="150" ry="90"/><ellipse cx="317" cy="832" rx="260" ry="170"/><ellipse cx="317" cy="832" rx="380" ry="250"/><ellipse cx="801" cy="402" rx="90" ry="60"/><ellipse cx="801" cy="402" rx="180" ry="120"/><ellipse cx="801" cy="402" rx="290" ry="190"/></g>
+<path d="M649 132 C589 82 469 32 349 12" fill="none" stroke="#F5EBD3" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 16"/>
+<path d="M659 237 Q759 282 801 402" fill="none" stroke="#FFD84D" stroke-width="7" stroke-linecap="round" stroke-dasharray="22 16" />
+<path d="M801 402 Q621 562 521 662 Q517 752 317 832" fill="none" stroke="#F5EBD3" stroke-width="7" stroke-linecap="round" stroke-dasharray="22 16" />
+<path d="M317 832 Q243 854 169 808" fill="none" stroke="#8FC7D9" stroke-width="7" stroke-linecap="round" stroke-dasharray="22 16" />
+<path d="M169 808 C139 588 429 484 579 274 L689 184" fill="none" stroke="#E8876A" stroke-width="7" stroke-linecap="round" stroke-dasharray="22 16" />
+<circle cx="649" cy="132" r="10" fill="#F5EBD3"/></svg><button class="pin l" data-i="0" style="left:65.90%;top:25.21%" aria-pressed="false" aria-label="Parada 1: BELO HORIZONTE"><span class="pn">1</span><em>BELO HORIZONTE</em></button><button class="pin l" data-i="1" style="left:80.10%;top:42.77%" aria-pressed="false" aria-label="Parada 2: OURO PRETO"><span class="pn">2</span><em>OURO PRETO</em></button><button class="pin r" data-i="2" style="left:31.70%;top:88.51%" aria-pressed="false" aria-label="Parada 3: SÃO THOMÉ DAS LETRAS"><span class="pn">3</span><em>SÃO THOMÉ DAS LETRAS</em></button><button class="pin b" data-i="3" style="left:16.90%;top:85.96%" aria-pressed="false" aria-label="Parada 4: VARGINHA"><span class="pn">4</span><em>VARGINHA</em></button><button class="pin r" data-i="4" style="left:68.90%;top:19.57%" aria-pressed="false" aria-label="Parada 5: SANTA LUZIA"><span class="pn">5</span><em>SANTA LUZIA</em></button><span class="cnf" style="left:64.90%;top:14.04%">AEROPORTO CNF</span><span class="flight">VOLTA 26.12 · BSB E PVH</span></div>
+<div class="legend" aria-label="Legenda dos trechos"><span><i style="border-color:#B8860B"></i>1 a 2 · BH a Ouro Preto</span><span><i style="border-color:#6B6254"></i>2 a 3 · Ouro Preto a São Thomé</span><span><i style="border-color:#4E8CA0"></i>3 a 4 · São Thomé a Varginha</span><span><i style="border-color:#C4552D"></i>4 a 5 · Varginha a Santa Luzia</span></div></div>
+<aside class="panel" id="panel" aria-live="polite"></aside>
+</div>
+<p class="sm" style="margin-top:16px">Mapa esquemático, sem escala exata. Toque numa parada para ver os detalhes.</p>
+</div></section>
+
+<div id="dias">
+<section class="day" id="d18"><div class="wrap">
+<div class="dayhead"><div class="dayleft"><span class="tag">PARADA 01</span><span class="dtxt">DIA 1 · SEX 18/12</span></div><div class="nav" aria-hidden="true"><span class="n on">1</span><span class="n">2</span><span class="n">3</span><span class="n">4</span><span class="n">5</span></div></div>
+<div class="cityblock"><h2>BELO HORIZONTE</h2></div>
+<p class="pern"><b>PERNOITE</b> ibis budget BH Savassi</p>
+<div class="cols"><div class="dcol"><h3>MANHÃ</h3><p>Retirada do carro em Confins. Cidade Administrativa, Conjunto da Pampulha e Zoológico.</p></div><div class="dcol"><h3>TARDE</h3><p>Almoço no Mercado Central e tour na Arena MRV (agendar 14:30 ou 16:00).</p></div><div class="dcol"><h3>NOITE</h3><p>Jantar na Savassi ou região. Pernoite no ibis.</p></div></div><div class="spots"><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Cidade Administrativa" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2140"/><stop offset="1" stop-color="#8E4A6B"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk1)"/><circle cx="340" cy="60" r="26" fill="#FFD84D"/><rect x="0" y="206" width="400" height="54" fill="#4F6B45"/><rect x="40" y="96" width="320" height="34" fill="#F5EBD3"/><rect x="60" y="130" width="8" height="80" fill="#F5EBD3"/><rect x="120" y="130" width="8" height="80" fill="#F5EBD3"/><rect x="180" y="130" width="8" height="80" fill="#F5EBD3"/><rect x="240" y="130" width="8" height="80" fill="#F5EBD3"/><rect x="300" y="130" width="8" height="80" fill="#F5EBD3"/><rect x="54" y="104" width="24" height="18" fill="#4E8CA0"/><rect x="94" y="104" width="24" height="18" fill="#4E8CA0"/><rect x="134" y="104" width="24" height="18" fill="#4E8CA0"/><rect x="174" y="104" width="24" height="18" fill="#4E8CA0"/><rect x="214" y="104" width="24" height="18" fill="#4E8CA0"/><rect x="254" y="104" width="24" height="18" fill="#4E8CA0"/><rect x="294" y="104" width="24" height="18" fill="#4E8CA0"/><rect x="334" y="104" width="24" height="18" fill="#4E8CA0"/><circle cx="200" cy="170" r="22" fill="#B8502E"/><rect x="150" y="196" width="100" height="10" fill="#A88F73"/></svg><div class="spot-b"><p class="spot-tag">MANHÃ</p><h4>Cidade Administrativa</h4><p>Sede do governo de Minas, projeto de Oscar Niemeyer.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Conjunto da Pampulha" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8876A"/><stop offset="1" stop-color="#FFD9A0"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk2)"/><circle cx="330" cy="62" r="28" fill="#FFD84D"/><rect x="0" y="190" width="400" height="70" fill="#4E8CA0"/><path d="M0 200 Q100 190 200 200 T400 200" stroke="#F5EBD3" stroke-width="2" fill="none" opacity=".5"/><path d="M0 225 Q100 215 200 225 T400 225" stroke="#F5EBD3" stroke-width="2" fill="none" opacity=".5"/><rect x="60" y="186" width="280" height="14" fill="#4F6B45"/><path d="M90 186 Q120 90 150 186Z" fill="#F5EBD3"/><path d="M160 186 Q190 90 220 186Z" fill="#F5EBD3"/><path d="M230 186 Q260 90 290 186Z" fill="#F5EBD3"/><rect x="262" y="112" width="8" height="74" fill="#F5EBD3"/><rect x="262" y="112" width="30" height="74" fill="#4E8CA0" opacity=".9"/><path d="M262 112 H292 V186 H262Z" fill="none" stroke="#F5EBD3" stroke-width="3"/></svg><div class="spot-b"><p class="spot-tag">MANHÃ</p><h4>Conjunto da Pampulha</h4><p>Conjunto modernista de Niemeyer em volta da lagoa.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Zoológico de BH" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2A65A"/><stop offset="1" stop-color="#FFE9B0"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk3)"/><circle cx="330" cy="56" r="26" fill="#FFD84D"/><rect x="0" y="206" width="400" height="54" fill="#4F6B45"/><circle cx="60" cy="150" r="34" fill="#7A9A5E"/><rect x="56" y="170" width="8" height="40" fill="#3E2338"/><circle cx="352" cy="160" r="26" fill="#7A9A5E"/><rect x="348" y="176" width="8" height="34" fill="#3E2338"/><g fill="#FFD84D"><rect x="160" y="150" width="96" height="40" rx="18"/><rect x="170" y="186" width="10" height="26"/><rect x="190" y="186" width="10" height="26"/><rect x="230" y="186" width="10" height="26"/><rect x="246" y="186" width="10" height="26"/><path d="M236 156 L258 70 L274 76 L254 160Z"/><ellipse cx="272" cy="68" rx="20" ry="12"/></g><g fill="#B8502E"><circle cx="190" cy="164" r="7"/><circle cx="214" cy="172" r="8"/><circle cx="236" cy="162" r="6"/><circle cx="254" cy="110" r="5"/><circle cx="248" cy="132" r="5"/></g><circle cx="278" cy="66" r="3" fill="#1C1814"/><rect x="262" y="52" width="4" height="10" fill="#B8502E"/></svg><div class="spot-b"><p class="spot-tag">MANHÃ</p><h4>Zoológico de BH</h4><p>Na região da Pampulha, na mesma manhã.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Mercado Central" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B2A4A"/><stop offset="1" stop-color="#F2A65A"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk4)"/><circle cx="60" cy="60" r="24" fill="#FFD84D"/><rect x="40" y="110" width="320" height="100" fill="#F1E3C3"/><path d="M40 110 Q200 40 360 110Z" fill="#B8502E"/><path d="M200 66 V110" stroke="#1C1814" stroke-width="3"/><path d="M60 150 h44 l-6 18 h-32z" fill="#FFD84D"/><rect x="66" y="168" width="32" height="42" fill="#3E2338"/><path d="M110 150 h44 l-6 18 h-32z" fill="#B8502E"/><rect x="116" y="168" width="32" height="42" fill="#3E2338"/><path d="M160 150 h44 l-6 18 h-32z" fill="#4E8CA0"/><rect x="166" y="168" width="32" height="42" fill="#3E2338"/><path d="M210 150 h44 l-6 18 h-32z" fill="#7A9A5E"/><rect x="216" y="168" width="32" height="42" fill="#3E2338"/><path d="M260 150 h44 l-6 18 h-32z" fill="#FFD84D"/><rect x="266" y="168" width="32" height="42" fill="#3E2338"/><path d="M310 150 h44 l-6 18 h-32z" fill="#B8502E"/><rect x="316" y="168" width="32" height="42" fill="#3E2338"/><rect x="0" y="212" width="400" height="48" fill="#A88F73"/></svg><div class="spot-b"><p class="spot-tag">TARDE</p><h4>Mercado Central</h4><p>Almoço com queijos, doces e comida mineira.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Arena MRV" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1814"/><stop offset="1" stop-color="#6B3A55"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk5)"/><rect x="0" y="206" width="400" height="54" fill="#4F6B45"/><ellipse cx="200" cy="170" rx="170" ry="52" fill="#F5EBD3"/><ellipse cx="200" cy="168" rx="140" ry="38" fill="#3E2338"/><ellipse cx="200" cy="168" rx="118" ry="28" fill="#7A9A5E"/><path d="M80 168 H320 M200 140 V196" stroke="#F5EBD3" stroke-width="2" fill="none"/><ellipse cx="200" cy="168" rx="22" ry="7" fill="none" stroke="#F5EBD3" stroke-width="2"/><path d="M30 160 Q200 70 370 160" stroke="#FFD84D" stroke-width="6" fill="none"/><rect x="46" y="70" width="4" height="40" fill="#F5EBD3"/><circle cx="48" cy="68" r="6" fill="#FFD84D"/><rect x="350" y="70" width="4" height="40" fill="#F5EBD3"/><circle cx="352" cy="68" r="6" fill="#FFD84D"/></svg><div class="spot-b"><p class="spot-tag">TARDE</p><h4>Arena MRV</h4><p>Tour às 14:30 ou 16:00, R$ 80 por pessoa. Entrada pelo Portão 1 (Esplanada).</p></div></article></div></div></section>
+<section class="day" id="d19"><div class="wrap">
+<div class="dayhead"><div class="dayleft"><span class="tag">PARADA 02</span><span class="dtxt">DIA 2 · SÁB 19/12</span></div><div class="nav" aria-hidden="true"><span class="n">1</span><span class="n on">2</span><span class="n">3</span><span class="n">4</span><span class="n">5</span></div></div>
+<div class="cityblock"><h2>OURO PRETO</h2></div>
+<p class="pern"><b>PERNOITE</b> Suite Tomaz Gonzaga</p>
+<div class="cols"><div class="dcol"><h3>MANHÃ</h3><p>Saída às 08:30 para Ouro Preto. Praça Tiradentes e Museu da Inconfidência.</p></div><div class="dcol"><h3>TARDE</h3><p>Almoço no Bené da Flauta. Igreja São Francisco de Assis.</p></div><div class="dcol"><h3>NOITE</h3><p>Jantar no O Passo Pizza Jazz. Pernoite na Suite Tomaz Gonzaga.</p></div></div><div class="spots"><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Praça Tiradentes" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2140"/><stop offset="1" stop-color="#F2A65A"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk6)"/><circle cx="70" cy="60" r="26" fill="#FFD84D"/><path d="M0 190 L70 140 L140 185 L220 120 L300 180 L360 150 L400 175 L400 260 L0 260Z" fill="#8E4A6B"/><path d="M0 215 L90 170 L180 210 L270 165 L400 210 L400 260 L0 260Z" fill="#6B3A55"/><rect x="20" y="150" width="46" height="64" fill="#F1E3C3"/><polygon points="16,152 43,128 70,152" fill="#B8502E"/><rect x="36" y="176" width="14" height="38" fill="#1C1814"/><rect x="28" y="162" width="10" height="12" fill="#1C1814"/><rect x="48" y="162" width="10" height="12" fill="#1C1814"/><rect x="70" y="150" width="46" height="64" fill="#E9C98B"/><polygon points="66,152 93,128 120,152" fill="#B8502E"/><rect x="86" y="176" width="14" height="38" fill="#1C1814"/><rect x="78" y="162" width="10" height="12" fill="#1C1814"/><rect x="98" y="162" width="10" height="12" fill="#1C1814"/><rect x="250" y="150" width="46" height="64" fill="#E9C98B"/><polygon points="246,152 273,128 300,152" fill="#B8502E"/><rect x="266" y="176" width="14" height="38" fill="#1C1814"/><rect x="258" y="162" width="10" height="12" fill="#1C1814"/><rect x="278" y="162" width="10" height="12" fill="#1C1814"/><rect x="300" y="150" width="46" height="64" fill="#F1E3C3"/><polygon points="296,152 323,128 350,152" fill="#B8502E"/><rect x="316" y="176" width="14" height="38" fill="#1C1814"/><rect x="308" y="162" width="10" height="12" fill="#1C1814"/><rect x="328" y="162" width="10" height="12" fill="#1C1814"/><rect x="350" y="150" width="46" height="64" fill="#D9A06B"/><polygon points="346,152 373,128 400,152" fill="#B8502E"/><rect x="366" y="176" width="14" height="38" fill="#1C1814"/><rect x="358" y="162" width="10" height="12" fill="#1C1814"/><rect x="378" y="162" width="10" height="12" fill="#1C1814"/><rect x="170" y="186" width="60" height="28" fill="#A88F73"/><rect x="180" y="174" width="40" height="14" fill="#A88F73"/><rect x="190" y="110" width="20" height="66" fill="#F5EBD3"/><polygon points="190,110 200,92 210,110" fill="#F5EBD3"/><circle cx="200" cy="84" r="9" fill="#F5EBD3"/><rect x="0" y="212" width="400" height="48" fill="#A88F73"/></svg><div class="spot-b"><p class="spot-tag">MANHÃ</p><h4>Praça Tiradentes</h4><p>O coração de Ouro Preto, ponto de partida a pé.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Museu da Inconfidência" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk7" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B2A4A"/><stop offset="1" stop-color="#E8876A"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk7)"/><circle cx="60" cy="64" r="28" fill="#FFD84D"/><path d="M0 190 L70 140 L140 185 L220 120 L300 180 L360 150 L400 175 L400 260 L0 260Z" fill="#6B3A55"/><path d="M0 215 L90 170 L180 210 L270 165 L400 210 L400 260 L0 260Z" fill="#3E2338"/><rect x="60" y="130" width="280" height="84" fill="#F1E3C3"/><polygon points="50,132 200,92 350,132" fill="#B8502E"/><rect x="180" y="104" width="40" height="30" fill="#F1E3C3"/><circle cx="200" cy="118" r="8" fill="#1C1814"/><path d="M76 214 V176 A14 14 0 0 1 104 176 V214Z" fill="#1C1814"/><path d="M126 214 V176 A14 14 0 0 1 154 176 V214Z" fill="#1C1814"/><path d="M226 214 V176 A14 14 0 0 1 254 176 V214Z" fill="#1C1814"/><path d="M276 214 V176 A14 14 0 0 1 304 176 V214Z" fill="#1C1814"/><path d="M326 214 V176 A14 14 0 0 1 354 176 V214Z" fill="#1C1814"/><path d="M186 214 V170 A14 14 0 0 1 214 170 V214Z" fill="#3E2338"/><rect x="198" y="64" width="3" height="30" fill="#F5EBD3"/><rect x="201" y="64" width="22" height="14" fill="#FFD84D"/><rect x="0" y="212" width="400" height="48" fill="#A88F73"/></svg><div class="spot-b"><p class="spot-tag">MANHÃ</p><h4>Museu da Inconfidência</h4><p>Fica na própria praça e guarda a história da Inconfidência Mineira.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Igreja São Francisco de Assis" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B2A4A"/><stop offset="1" stop-color="#E8876A"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk8)"/><circle cx="330" cy="60" r="30" fill="#FFD84D"/><path d="M0 190 L70 140 L140 185 L220 120 L300 180 L360 150 L400 175 L400 260 L0 260Z" fill="#6B3A55"/><path d="M0 215 L90 170 L180 210 L270 165 L400 210 L400 260 L0 260Z" fill="#3E2338"/><rect x="100" y="110" width="42" height="104" fill="#F1E3C3"/><rect x="258" y="110" width="42" height="104" fill="#F1E3C3"/>
+<polygon points="94,112 121,64 148,112" fill="#B8502E"/><polygon points="252,112 279,64 306,112" fill="#B8502E"/>
+<rect x="138" y="140" width="124" height="74" fill="#F1E3C3"/><polygon points="130,142 200,98 270,142" fill="#B8502E"/>
+<path d="M180 214 V176 A20 20 0 0 1 220 176 V214Z" fill="#1C1814"/><circle cx="200" cy="140" r="12" fill="#1C1814"/><circle cx="200" cy="140" r="5" fill="#FFD84D"/>
+<rect x="113" y="140" width="16" height="26" rx="8" fill="#1C1814"/><rect x="271" y="140" width="16" height="26" rx="8" fill="#1C1814"/>
+<rect x="120" y="50" width="3" height="16" fill="#F5EBD3"/><rect x="115" y="55" width="13" height="3" fill="#F5EBD3"/><rect x="278" y="50" width="3" height="16" fill="#F5EBD3"/><rect x="273" y="55" width="13" height="3" fill="#F5EBD3"/><rect x="0" y="212" width="400" height="48" fill="#A88F73"/></svg><div class="spot-b"><p class="spot-tag">TARDE</p><h4>Igreja São Francisco de Assis</h4><p>Barroco mineiro, com obras de Aleijadinho e Mestre Ataíde.</p></div></article></div></div></section>
+<section class="day" id="d20"><div class="wrap">
+<div class="dayhead"><div class="dayleft"><span class="tag">PARADA 02</span><span class="dtxt">DIA 3 · DOM 20/12</span></div><div class="nav" aria-hidden="true"><span class="n">1</span><span class="n on">2</span><span class="n">3</span><span class="n">4</span><span class="n">5</span></div></div>
+<div class="cityblock"><h2>RUMO A SÃO THOMÉ</h2></div>
+<p class="pern"><b>PERNOITE</b> Hotel dos Sonhos</p>
+<div class="cols"><div class="dcol"><h3>MANHÃ</h3><p>Mina da Passagem (Mariana), para explorar a engenharia de mineração.</p></div><div class="dcol"><h3>TARDE</h3><p>Deslocamento de 3h40 até São Thomé das Letras.</p></div><div class="dcol"><h3>NOITE</h3><p>Pôr do sol na Casa da Pirâmide. Pernoite no Hotel dos Sonhos.</p></div></div><div class="spots"><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Mina da Passagem" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E2338"/><stop offset="1" stop-color="#3E2338"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk9)"/><rect width="400" height="260" fill="#3E2338"/><path d="M0 0 H400 V90 Q300 60 200 66 Q100 60 0 90Z" fill="#4F6B45"/><path d="M0 260 V120 Q100 90 200 96 Q300 90 400 120 V260Z" fill="#A88F73"/><path d="M110 260 V160 A90 80 0 0 1 290 160 V260Z" fill="#1C1814"/><path d="M135 260 V168 A65 58 0 0 1 265 168 V260Z" fill="#2A211B"/><path d="M150 260 L186 176 M250 260 L214 176" stroke="#A88F73" stroke-width="5"/><g fill="none" stroke="#FFD84D" stroke-width="3"><path d="M164 236 H236 M172 216 H228 M180 198 H220"/></g><path d="M168 214 h64 l-8 24 h-48z" fill="#B8502E"/><circle cx="182" cy="244" r="8" fill="#F5EBD3"/><circle cx="218" cy="244" r="8" fill="#F5EBD3"/><circle cx="200" cy="150" r="6" fill="#FFD84D"/><circle cx="200" cy="150" r="14" fill="#FFD84D" opacity=".25"/><rect x="100" y="60" width="200" height="26" rx="4" fill="#FFD84D"/></svg><div class="spot-b"><p class="spot-tag">MANHÃ</p><h4>Mina da Passagem</h4><p>Em Mariana. Descida na mina para ver a engenharia de mineração.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Casa da Pirâmide" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk10" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2140"/><stop offset="1" stop-color="#FFC971"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk10)"/><circle cx="200" cy="110" r="60" fill="#FFD84D"/><path d="M0 190 L70 140 L140 185 L220 120 L300 180 L360 150 L400 175 L400 260 L0 260Z" fill="#8E4A6B"/><path d="M0 215 L90 170 L180 210 L270 165 L400 210 L400 260 L0 260Z" fill="#6B3A55"/><rect x="110" y="196" width="180" height="20" fill="#BFA68A"/><rect x="124" y="176" width="152" height="20" fill="#A88F73"/><rect x="138" y="156" width="124" height="20" fill="#BFA68A"/><rect x="152" y="136" width="96" height="20" fill="#A88F73"/><rect x="166" y="116" width="68" height="20" fill="#BFA68A"/><rect x="180" y="96" width="40" height="20" fill="#A88F73"/><polygon points="192,76 200,58 208,76" fill="#F5EBD3"/><rect x="0" y="212" width="400" height="48" fill="#3E2338"/></svg><div class="spot-b"><p class="spot-tag">NOITE</p><h4>Casa da Pirâmide</h4><p>Pôr do sol em São Thomé das Letras.</p></div></article></div></div></section>
+<section class="day" id="d21"><div class="wrap">
+<div class="dayhead"><div class="dayleft"><span class="tag">PARADA 03</span><span class="dtxt">DIA 4 · SEG 21/12</span></div><div class="nav" aria-hidden="true"><span class="n">1</span><span class="n">2</span><span class="n on">3</span><span class="n">4</span><span class="n">5</span></div></div>
+<div class="cityblock"><h2>SÃO THOMÉ DAS LETRAS</h2></div>
+<p class="pern"><b>PERNOITE</b> Hotel dos Sonhos</p>
+<div class="cols"><div class="dcol"><h3>MANHÃ</h3><p>Ladeira do Amendoim e Vale das Borboletas (circuito leve).</p></div><div class="dcol"><h3>TARDE</h3><p>Cachoeira do Flávio e Eubiose.</p></div><div class="dcol"><h3>NOITE</h3><p>Descanso e lanche no Centro Histórico.</p></div></div><div class="spots"><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Ladeira do Amendoim" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk11" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8876A"/><stop offset="1" stop-color="#FFE9B0"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk11)"/><circle cx="70" cy="60" r="26" fill="#FFD84D"/><path d="M0 220 L200 70 L400 190 V260 H0Z" fill="#4F6B45"/><path d="M0 240 L220 110 L400 220 V260 H0Z" fill="#7A9A5E"/><path d="M60 260 Q120 220 150 200 T200 160 Q230 140 214 120 T228 92" fill="none" stroke="#A88F73" stroke-width="16" stroke-linecap="round"/><path d="M60 260 Q120 220 150 200 T200 160 Q230 140 214 120 T228 92" fill="none" stroke="#F5EBD3" stroke-width="2" stroke-dasharray="8 8"/><circle cx="320" cy="170" r="16" fill="#3E2338"/><rect x="316" y="180" width="8" height="26" fill="#3E2338"/><circle cx="350" cy="196" r="12" fill="#3E2338"/></svg><div class="spot-b"><p class="spot-tag">MANHÃ</p><h4>Ladeira do Amendoim</h4><p>Circuito leve, de manhã.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Vale das Borboletas" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk12" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FC7D9"/><stop offset="1" stop-color="#FFE9B0"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk12)"/><path d="M0 190 Q100 120 200 170 T400 150 V260 H0Z" fill="#4F6B45"/><path d="M0 230 Q120 180 220 220 T400 210 V260 H0Z" fill="#7A9A5E"/><circle cx="320" cy="60" r="28" fill="#FFD84D"/><g transform="translate(90 100) scale(1)"><path d="M0 0 C-30 -30 -34 10 0 6Z M0 0 C30 -30 34 10 0 6Z" fill="#FFD84D"/><path d="M0 4 C-18 6 -20 28 0 12Z M0 4 C18 6 20 28 0 12Z" fill="#FFD84D" opacity=".8"/><rect x="-1.5" y="-8" width="3" height="22" rx="1.5" fill="#1C1814"/></g><g transform="translate(170 70) scale(0.8)"><path d="M0 0 C-30 -30 -34 10 0 6Z M0 0 C30 -30 34 10 0 6Z" fill="#B8502E"/><path d="M0 4 C-18 6 -20 28 0 12Z M0 4 C18 6 20 28 0 12Z" fill="#B8502E" opacity=".8"/><rect x="-1.5" y="-8" width="3" height="22" rx="1.5" fill="#1C1814"/></g><g transform="translate(250 120) scale(1.1)"><path d="M0 0 C-30 -30 -34 10 0 6Z M0 0 C30 -30 34 10 0 6Z" fill="#4E8CA0"/><path d="M0 4 C-18 6 -20 28 0 12Z M0 4 C18 6 20 28 0 12Z" fill="#4E8CA0" opacity=".8"/><rect x="-1.5" y="-8" width="3" height="22" rx="1.5" fill="#1C1814"/></g><g transform="translate(130 150) scale(0.7)"><path d="M0 0 C-30 -30 -34 10 0 6Z M0 0 C30 -30 34 10 0 6Z" fill="#F5EBD3"/><path d="M0 4 C-18 6 -20 28 0 12Z M0 4 C18 6 20 28 0 12Z" fill="#F5EBD3" opacity=".8"/><rect x="-1.5" y="-8" width="3" height="22" rx="1.5" fill="#1C1814"/></g><g transform="translate(300 170) scale(0.9)"><path d="M0 0 C-30 -30 -34 10 0 6Z M0 0 C30 -30 34 10 0 6Z" fill="#FFD84D"/><path d="M0 4 C-18 6 -20 28 0 12Z M0 4 C18 6 20 28 0 12Z" fill="#FFD84D" opacity=".8"/><rect x="-1.5" y="-8" width="3" height="22" rx="1.5" fill="#1C1814"/></g></svg><div class="spot-b"><p class="spot-tag">MANHÃ</p><h4>Vale das Borboletas</h4><p>Também no circuito leve.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Cachoeira do Flávio" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk13" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FC7D9"/><stop offset="1" stop-color="#8FC7D9"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk13)"/><path d="M0 0 H114 V150 H0Z M186 0 H400 V150 H186Z" fill="#3E2338"/><path d="M0 40 H114 V90 H0Z M186 20 H400 V80 H186Z" fill="#4F6B45"/><rect x="114" y="0" width="72" height="150" fill="#F5EBD3"/><g stroke="#4E8CA0" stroke-width="3" opacity=".6"><path d="M124 0 V150 M150 0 V150 M176 0 V150"/></g><rect x="0" y="150" width="400" height="110" fill="#4E8CA0"/><ellipse cx="150" cy="156" rx="62" ry="12" fill="#F5EBD3" opacity=".8"/><path d="M20 200 Q100 190 180 205 T380 200 M10 232 Q100 222 200 236 T390 230" stroke="#F5EBD3" stroke-width="2" fill="none" opacity=".5"/></svg><div class="spot-b"><p class="spot-tag">TARDE</p><h4>Cachoeira do Flávio</h4><p>Banho e descanso à tarde.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Eubiose" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk14" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2140"/><stop offset="1" stop-color="#8E4A6B"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk14)"/><circle cx="60" cy="60" r="24" fill="#FFD84D"/><path d="M0 190 L70 140 L140 185 L220 120 L300 180 L360 150 L400 175 L400 260 L0 260Z" fill="#8E4A6B"/><path d="M0 215 L90 170 L180 210 L270 165 L400 210 L400 260 L0 260Z" fill="#6B3A55"/><rect x="90" y="190" width="220" height="24" fill="#A88F73"/><rect x="104" y="176" width="192" height="14" fill="#F5EBD3"/><rect x="118" y="116" width="14" height="60" fill="#F5EBD3"/><rect x="150" y="116" width="14" height="60" fill="#F5EBD3"/><rect x="182" y="116" width="14" height="60" fill="#F5EBD3"/><rect x="214" y="116" width="14" height="60" fill="#F5EBD3"/><rect x="246" y="116" width="14" height="60" fill="#F5EBD3"/><rect x="278" y="116" width="14" height="60" fill="#F5EBD3"/><polygon points="100,116 200,78 300,116" fill="#F5EBD3"/><polygon points="116,114 200,86 284,114" fill="#3E2338"/><circle cx="200" cy="104" r="7" fill="#FFD84D"/><circle cx="150" cy="40" r="2.5" fill="#FFD84D"/><circle cx="230" cy="30" r="2.5" fill="#FFD84D"/><circle cx="280" cy="52" r="2.5" fill="#FFD84D"/><circle cx="120" cy="70" r="2.5" fill="#FFD84D"/><circle cx="320" cy="90" r="2.5" fill="#FFD84D"/><rect x="0" y="212" width="400" height="48" fill="#3E2338"/></svg><div class="spot-b"><p class="spot-tag">TARDE</p><h4>Eubiose</h4><p>Visita de tarde, perto da cachoeira.</p></div></article></div></div></section>
+<section class="day" id="d22"><div class="wrap">
+<div class="dayhead"><div class="dayleft"><span class="tag">PARADA 03</span><span class="dtxt">DIA 5 · TER 22/12</span></div><div class="nav" aria-hidden="true"><span class="n">1</span><span class="n">2</span><span class="n on">3</span><span class="n">4</span><span class="n">5</span></div></div>
+<div class="cityblock"><h2>SÃO THOMÉ DAS LETRAS</h2></div>
+<p class="pern"><b>PERNOITE</b> Hotel dos Sonhos</p>
+<div class="cols"><div class="dcol"><h3>MANHÃ</h3><p>Cachoeira Antares. O acesso exige atenção na estrada de terra.</p></div><div class="dcol"><h3>TARDE</h3><p>Cachoeira Véu de Noiva.</p></div><div class="dcol"><h3>NOITE</h3><p>Jantar farto no O Alquimista.</p></div></div><div class="spots"><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Cachoeira Antares" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk15" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FC7D9"/><stop offset="1" stop-color="#8FC7D9"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk15)"/><path d="M0 0 H194 V150 H0Z M306 0 H400 V150 H306Z" fill="#3E2338"/><path d="M0 40 H194 V90 H0Z M306 20 H400 V80 H306Z" fill="#4F6B45"/><rect x="194" y="0" width="112" height="150" fill="#F5EBD3"/><g stroke="#4E8CA0" stroke-width="3" opacity=".6"><path d="M204 0 V150 M250 0 V150 M296 0 V150"/></g><rect x="0" y="150" width="400" height="110" fill="#4E8CA0"/><ellipse cx="250" cy="156" rx="82" ry="12" fill="#F5EBD3" opacity=".8"/><path d="M20 200 Q100 190 180 205 T380 200 M10 232 Q100 222 200 236 T390 230" stroke="#F5EBD3" stroke-width="2" fill="none" opacity=".5"/></svg><div class="spot-b"><p class="spot-tag">MANHÃ</p><h4>Cachoeira Antares</h4><p>O acesso é por estrada de terra: atenção na chegada.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Cachoeira Véu de Noiva" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk16" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FC7D9"/><stop offset="1" stop-color="#8FC7D9"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk16)"/><path d="M0 0 H178 V150 H0Z M222 0 H400 V150 H222Z" fill="#3E2338"/><path d="M0 40 H178 V90 H0Z M222 20 H400 V80 H222Z" fill="#4F6B45"/><rect x="178" y="0" width="44" height="150" fill="#F5EBD3"/><g stroke="#5FA3B8" stroke-width="3" opacity=".6"><path d="M188 0 V150 M200 0 V150 M212 0 V150"/></g><rect x="0" y="150" width="400" height="110" fill="#5FA3B8"/><ellipse cx="200" cy="156" rx="48" ry="12" fill="#F5EBD3" opacity=".8"/><path d="M20 200 Q100 190 180 205 T380 200 M10 232 Q100 222 200 236 T390 230" stroke="#F5EBD3" stroke-width="2" fill="none" opacity=".5"/></svg><div class="spot-b"><p class="spot-tag">TARDE</p><h4>Cachoeira Véu de Noiva</h4><p>Com tempo fechado, cuidado com trombas d’água.</p></div></article></div></div></section>
+<section class="day" id="d23"><div class="wrap">
+<div class="dayhead"><div class="dayleft"><span class="tag">PARADA 04</span><span class="dtxt">DIA 6 · QUA 23/12</span><p class="newchip">Sugestão nova: Varginha</p></div><div class="nav" aria-hidden="true"><span class="n">1</span><span class="n">2</span><span class="n">3</span><span class="n on">4</span><span class="n">5</span></div></div>
+<div class="cityblock"><h2>VARGINHA E SANTA LUZIA</h2></div>
+<p class="pern"><b>PERNOITE</b> Casa da Família (sogros)</p>
+<div class="cols"><div class="dcol"><h3>MANHÃ</h3><p>Check-out cedo, com saída até as 08:30. Cerca de 1h de estrada até Varginha.</p></div><div class="dcol"><h3>TARDE</h3><p>Volta rápida por Varginha: Nave do ET, Zoológico e um café. Depois BR-381 (Fernão Dias) rumo a Santa Luzia.</p></div><div class="dcol"><h3>NOITE</h3><p>Chegada e pernoite na casa dos sogros. Evite dirigir à noite: se o dia apertar, encurte o passeio.</p></div></div><div class="spots"><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Nave do ET" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk17" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2140"/><stop offset="1" stop-color="#8E4A6B"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk17)"/><circle cx="330" cy="56" r="22" fill="#FFD84D"/><rect x="0" y="206" width="400" height="54" fill="#A88F73"/><rect x="184" y="120" width="32" height="90" fill="#F5EBD3"/><rect x="170" y="150" width="60" height="10" fill="#F5EBD3"/><ellipse cx="200" cy="108" rx="78" ry="20" fill="#A88F73"/><path d="M146 104 A54 44 0 0 1 254 104Z" fill="#4E8CA0" opacity=".9"/><ellipse cx="200" cy="108" rx="78" ry="14" fill="none" stroke="#FFD84D" stroke-width="4"/><circle cx="140" cy="110" r="4" fill="#FFD84D"/><circle cx="170" cy="110" r="4" fill="#FFD84D"/><circle cx="200" cy="110" r="4" fill="#FFD84D"/><circle cx="230" cy="110" r="4" fill="#FFD84D"/><circle cx="260" cy="110" r="4" fill="#FFD84D"/><g fill="#7A9A5E"><ellipse cx="200" cy="190" rx="14" ry="18"/><circle cx="200" cy="162" r="11"/><ellipse cx="192" cy="160" rx="3" ry="5" fill="#1C1814"/><ellipse cx="208" cy="160" rx="3" ry="5" fill="#1C1814"/></g><circle cx="60" cy="170" r="30" fill="#4F6B45"/><rect x="56" y="190" width="8" height="20" fill="#3E2338"/><circle cx="350" cy="180" r="24" fill="#4F6B45"/><rect x="346" y="196" width="8" height="14" fill="#3E2338"/></svg><div class="spot-b"><p class="spot-tag">TARDE</p><h4>Nave do ET</h4><p>Caixa d’água em forma de disco voador, no centro, com uma estátua do ET embaixo.</p></div></article><article class="spot"><svg class="scene" viewBox="0 0 400 260" role="img" aria-label="Ilustração: Zoológico de Varginha" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk18" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC971"/><stop offset="1" stop-color="#FFE9B0"/></linearGradient></defs><rect width="400" height="260" fill="url(#sk18)"/><circle cx="60" cy="56" r="24" fill="#FFD84D"/><rect x="0" y="200" width="400" height="60" fill="#4F6B45"/><path d="M0 200 Q100 180 200 200 T400 196 V260 H0Z" fill="#7A9A5E"/><circle cx="90" cy="130" r="40" fill="#7A9A5E"/><rect x="86" y="164" width="8" height="46" fill="#3E2338"/><circle cx="180" cy="110" r="48" fill="#4F6B45"/><rect x="176" y="152" width="8" height="58" fill="#3E2338"/><circle cx="280" cy="130" r="42" fill="#7A9A5E"/><rect x="276" y="166" width="8" height="44" fill="#3E2338"/><circle cx="350" cy="150" r="30" fill="#4F6B45"/><rect x="346" y="174" width="8" height="36" fill="#3E2338"/><g transform="translate(220 196)"><ellipse cx="0" cy="0" rx="22" ry="12" fill="#B8502E"/><rect x="-16" y="4" width="4" height="16" fill="#B8502E"/><rect x="10" y="4" width="4" height="16" fill="#B8502E"/><path d="M16 -4 L28 -26 L36 -24" stroke="#B8502E" stroke-width="5" fill="none"/><circle cx="36" cy="-26" r="5" fill="#B8502E"/><path d="M34 -32 L30 -44 M38 -32 L42 -44" stroke="#A88F73" stroke-width="2" fill="none"/></g></svg><div class="spot-b"><p class="spot-tag">TARDE</p><h4>Zoológico de Varginha</h4><p>Parque Zoobotânico para uma volta tranquila.</p></div></article></div></div></section>
+<section class="day" id="d24"><div class="wrap">
+<div class="dayhead"><div class="dayleft"><span class="tag">PARADA 05</span><span class="dtxt">DIAS 7 E 8 · 24 E 25/12</span></div><div class="nav" aria-hidden="true"><span class="n">1</span><span class="n">2</span><span class="n">3</span><span class="n">4</span><span class="n on">5</span></div></div>
+<div class="cityblock"><h2>NATAL EM SANTA LUZIA</h2></div>
+<p class="pern"><b>PERNOITE</b> Casa da Família (sogros)</p>
+<div class="cols"><div class="dcol"><h3>EM FAMÍLIA</h3><p>Dias de descanso com a família.</p></div><div class="dcol"><h3>PASSEIO LEVE</h3><p>Centro Histórico de Santa Luzia.</p></div><div class="dcol"><h3>CEIA</h3><p>Ceia de Natal. Feriado: Inhotim e a maioria dos atrativos estarão fechados.</p></div></div></div></section>
+<section class="day" id="d26"><div class="wrap">
+<div class="dayhead"><div class="dayleft"><span class="tag">PARADA 05</span><span class="dtxt">DIA 9 · SÁB 26/12</span></div><div class="nav" aria-hidden="true"><span class="n">1</span><span class="n">2</span><span class="n">3</span><span class="n">4</span><span class="n on">5</span></div></div>
+<div class="cityblock"><h2>VOLTA A PORTO VELHO</h2></div>
+<p class="pern"><b>CHEGADA</b> Chegada em Porto Velho, 23:25</p>
+<div class="cols"><div class="dcol"><h3>MANHÃ</h3><p>Arrumação e almoço de despedida.</p></div><div class="dcol"><h3>TARDE</h3><p>Saída às 14h para Confins. Devolução do carro e voo às 17:55.</p></div><div class="dcol"><h3>NOITE</h3><p>Confins a Brasília (19:20) e Brasília a Porto Velho (21:30 às 23:25).</p></div></div></div></section>
+</div>
+
+<section class="dark" id="logistica"><div class="wrap">
+<p class="eyebrow">LOGÍSTICA AÉREA</p>
+<h2 class="big">IDA E VOLTA</h2>
+<div class="passes"><article class="pass"><p class="chip">18/12 · SEX</p><h3>AZUL 2696</h3><div class="route"><div><p class="code">PVH</p><p class="city">Porto Velho</p></div><svg class="arr" viewBox="0 0 80 40" aria-hidden="true"><path d="M0 12 H48 V0 L80 20 L48 40 V28 H0Z" fill="#B8502E"/></svg><div><p class="code">CNF</p><p class="city">Confins</p></div></div><p class="time">02:25 – 06:50</p><p class="sm">Voo direto</p></article><article class="pass"><p class="chip">26/12 · SÁB</p><h3>LATAM LA3723</h3><div class="route"><div><p class="code">CNF</p><p class="city">Confins</p></div><svg class="arr" viewBox="0 0 80 40" aria-hidden="true"><path d="M0 12 H48 V0 L80 20 L48 40 V28 H0Z" fill="#B8502E"/></svg><div><p class="code">BSB</p><p class="city">Brasília</p></div></div><p class="time">17:55 – 19:20</p><p class="sm">Horário local</p></article><article class="pass"><p class="chip">26/12 · SÁB</p><h3>LATAM LA3600</h3><div class="route"><div><p class="code">BSB</p><p class="city">Brasília</p></div><svg class="arr" viewBox="0 0 80 40" aria-hidden="true"><path d="M0 12 H48 V0 L80 20 L48 40 V28 H0Z" fill="#B8502E"/></svg><div><p class="code">PVH</p><p class="city">Porto Velho</p></div></div><p class="time">21:30 – 23:25</p><p class="sm">Horário local</p></article></div>
+<div class="stays"><div><p class="eyebrow" style="margin-top:6px">HOSPEDAGENS CONFIRMADAS</p><div class="stay"><div class="stay-l"><span class="numtag">1</span><div><h3>BELO HORIZONTE</h3><p>ibis budget BH Savassi</p></div></div><div class="stay-r"><p class="disp">18.12 – 19.12</p><p class="sm">1 diária</p></div></div><div class="stay"><div class="stay-l"><span class="numtag">2</span><div><h3>OURO PRETO</h3><p>Suite Tomaz Gonzaga</p></div></div><div class="stay-r"><p class="disp">19.12 – 20.12</p><p class="sm">1 diária</p></div></div><div class="stay"><div class="stay-l"><span class="numtag">3</span><div><h3>SÃO THOMÉ DAS LETRAS</h3><p>Hotel dos Sonhos</p></div></div><div class="stay-r"><p class="disp">20.12 – 23.12</p><p class="sm">3 diárias</p></div></div><div class="stay"><div class="stay-l"><span class="numtag">5</span><div><h3>SANTA LUZIA</h3><p>Casa da Família (sogros)</p></div></div><div class="stay-r"><p class="disp">23.12 – 26.12</p><p class="sm">3 diárias</p></div></div></div>
+<aside class="carcard"><p class="eyebrow">CARRO ALUGADO</p><h3>RETIRADA E DEVOLUÇÃO</h3>
+<p><b>Retirada:</b> Aeroporto de Confins (CNF), 18/12 pela manhã.</p><p><b>Devolução:</b> 26/12 por volta das 15:30, no mesmo local.</p><p><b>Dica:</b> motorização 1.6+ para as ladeiras de Ouro Preto e as estradas de terra.</p></aside></div>
+</div></section>
+
+<section id="estrada"><div class="wrap">
+<p class="eyebrow">DIRIGINDO POR MINAS</p>
+<h2 class="big">NA ESTRADA</h2>
+<div class="roads"><article class="road"><h3>BELO HORIZONTE A OURO PRETO</h3><p class="big">~100 KM · 1H40</p><p>BR-356. Estrada sinuosa na serra: atenção redobrada nas ultrapassagens e curvas fechadas.</p></article><article class="road"><h3>OURO PRETO A SÃO THOMÉ</h3><p class="big">~260 KM · 3H40</p><p>BR-040 / BR-383. Boa parte em pista simples. Calcule o trajeto para não viajar à noite.</p></article><article class="road"><h3>SÃO THOMÉ A VARGINHA</h3><p class="big">CERCA DE 1H</p><p>Trecho curto da volta rápida de 23/12. Confirme o trajeto no GPS antes de sair.</p></article><article class="road"><h3>VARGINHA A SANTA LUZIA</h3><p class="big">BR-381</p><p>Rodovia Fernão Dias, passando pelo Contorno de Belo Horizonte. O trecho direto de São Thomé era de ~330 km e 5h.</p></article><article class="road dk"><h3>TRÂNSITO E NAVEGAÇÃO</h3><p>Anel Rodoviário e Linha Verde costumam ficar pesados nos horários de pico: calcule margem de erro.</p><p>Baixem os mapas offline de Ouro Preto e São Thomé das Letras no Google Maps. O sinal oscila muito nas serras.</p></article></div>
+</div></section>
+
+<section class="dark" id="custos"><div class="wrap">
+<p class="eyebrow">PLANEJAMENTO FINANCEIRO</p>
+<h2 class="big">QUANTO VAI CUSTAR</h2>
+<div class="tabs" role="tablist"><button role="tab" id="t1" aria-selected="true" aria-controls="p1">Divisão do casal</button><button role="tab" id="t2" aria-selected="false" aria-controls="p2">Estimativa do guia</button></div>
+<div id="p1" role="tabpanel" aria-labelledby="t1"><div class="scroll"><table><thead><tr><th>Categoria de gasto</th><th>Valor total estimado</th><th>Gastos Brunno</th><th>Gastos Letícia</th></tr></thead><tbody><tr><th scope="row">Hospedagem (BH, OP, STL)</th><td>R$ 1.623,00</td><td>R$ 811,50</td><td>R$ 811,50</td></tr><tr><th scope="row">Aluguel do carro</th><td>R$ 943,45</td><td>R$ 943,45</td><td>R$ 0,00</td></tr><tr><th scope="row">Combustível e pedágios</th><td>R$ 650,00</td><td>R$ 650,00</td><td>R$ 0,00</td></tr><tr><th scope="row">Alimentação (9 dias)</th><td>R$ 2.600,00</td><td>R$ 1.300,00</td><td>R$ 1.300,00</td></tr><tr><th scope="row">Atrações e passeios</th><td>R$ 400,00</td><td>R$ 200,00</td><td>R$ 200,00</td></tr><tr><th scope="row">Margem de segurança</th><td>R$ 400,00</td><td>R$ 200,00</td><td>R$ 200,00</td></tr></tbody><tfoot><tr><th scope="row">TOTAL GERAL</th><td>R$ 6.616,45</td><td>R$ 4.104,95</td><td>R$ 2.511,50</td></tr></tfoot></table></div></div>
+<div id="p2" role="tabpanel" aria-labelledby="t2" hidden><p class="total">R$ 3.940</p><p>Estimativa inicial do guia para o casal, no cenário intermediário. Não inclui voos e hotéis já pagos.</p><div class="bars"><div class="bi"><div class="bt"><h3>COMBUSTÍVEL E PEDÁGIOS</h3><p class="disp val">R$ 680</p></div><div class="track"><div class="bar" style="width:25.2%"></div></div><p class="sm">Estimativa para cerca de 850 km rodados, mais estacionamentos.</p></div><div class="bi"><div class="bt"><h3>ALIMENTAÇÃO (9 DIAS)</h3><p class="disp val">R$ 2.700</p></div><div class="track"><div class="bar" style="width:100.0%"></div></div><p class="sm">Média de R$ 300 por dia. Os gastos caem nos dias em Santa Luzia.</p></div><div class="bi"><div class="bt"><h3>INGRESSOS (ARENA MRV E MINA)</h3><p class="disp val">R$ 560</p></div><div class="track"><div class="bar" style="width:20.7%"></div></div><p class="sm">Tour Arena MRV: R$ 80 por pessoa. Agendar online.</p></div></div></div>
+<p class="note">As duas visões usam categorias diferentes. A divisão do casal é a mais completa, com hospedagem, carro e margem de segurança.</p>
+</div></section>
+
+<section class="sunbg" id="checklist"><div class="wrap">
+<p class="eyebrow">CHECKLIST E RECOMENDAÇÕES</p>
+<h2 class="big">ANTES DE EMBARCAR</h2>
+<div class="ck2">
+<article class="ck"><h3>PARA A MALA</h3><p><b>Tênis confortável</b> com bom amortecimento, essencial para as ladeiras de Ouro Preto e o tour na Arena MRV.</p><p><b>Protetor solar e repelente.</b></p><p><b>Casaco corta-vento:</b> São Thomé fica a 1.400 m de altitude e as noites esfriam rápido.</p></article>
+<article class="ck"><h3>ATENÇÃO</h3><p><b>Chuvas:</b> dezembro é época de chuvas e as ladeiras de Ouro Preto ficam extremamente escorregadias.</p><p><b>Cachoeiras:</b> risco de trombas d’água em São Thomé se o tempo fechar nas cabeceiras.</p><p><b>Arena MRV:</b> ingressos no site experiencias.atletico.com.br. Acesso ao tour pelo Portão 1 (Esplanada).</p></article>
+</div></div></section>
+</main>
+
+<footer class="end"><div class="wrap"><p class="script">Boa viagem!</p><p class="who">BRUNNO &amp; LETÍCIA</p><small>MINAS GERAIS · 18 A 26 DE DEZEMBRO DE 2026</small></div><svg class="art" viewBox="0 0 1920 540" preserveAspectRatio="xMidYMax slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="1500" cy="230" r="120" fill="#FFD84D"/>
+<path d="M0 260 L180 180 L330 250 L520 130 L700 240 L900 160 L1100 260 L1300 150 L1500 250 L1700 170 L1920 240 L1920 540 L0 540Z" fill="#6B3A55"/>
+<path d="M0 340 L240 250 L420 330 L640 230 L860 340 L1060 270 L1260 350 L1480 260 L1700 350 L1920 290 L1920 540 L0 540Z" fill="#3E2338"/>
+<path d="M0 420 L200 360 L400 420 L620 350 L840 430 L1100 380 L1360 440 L1600 380 L1920 430 L1920 540 L0 540Z" fill="#241520"/>
+<rect x="0" y="470" width="1920" height="70" fill="#1C1814"/>
+<line x1="0" y1="505" x2="1920" y2="505" stroke="#F5EBD3" stroke-width="6" stroke-dasharray="60 40"/></svg></footer>
+
+<script>
+var STOPS=[{"n": 1, "name": "BELO HORIZONTE", "from": "18.12", "to": "19.12", "base": "ibis budget BH Savassi", "leg": "Confins: retirada do carro, 18/12 pela manhã", "links": [["Dia 1 · Sex 18/12", "d18"]], "hl": ["Pampulha", "Arena MRV", "Mercado Central", "Cidade Administrativa"]}, {"n": 2, "name": "OURO PRETO", "from": "19.12", "to": "20.12", "base": "Suite Tomaz Gonzaga", "leg": "Desde BH: ~100 km, 1h40, BR-356 (serra sinuosa)", "links": [["Dia 2 · Sáb 19/12", "d19"], ["Dia 3 · Mina da Passagem", "d20"]], "hl": ["Praça Tiradentes", "Museu da Inconfidência", "São Francisco de Assis", "Mina da Passagem"]}, {"n": 3, "name": "SÃO THOMÉ DAS LETRAS", "from": "20.12", "to": "23.12", "base": "Hotel dos Sonhos", "leg": "Desde Ouro Preto: ~260 km, 3h40, BR-040 / BR-383", "links": [["Dia 3 · Dom 20/12", "d20"], ["Dia 4 · Seg 21/12", "d21"], ["Dia 5 · Ter 22/12", "d22"]], "hl": ["Casa da Pirâmide", "Cachoeira Antares", "Véu de Noiva", "Ladeira do Amendoim"]}, {"n": 4, "name": "VARGINHA", "from": "23.12", "to": "23.12", "base": "Só uma volta rápida, sem pernoite", "leg": "Desde São Thomé: cerca de 1h. Sugestão nova, no caminho para Santa Luzia", "links": [["Dia 6 · Qua 23/12", "d23"]], "hl": ["Nave do ET", "Praça do ET", "Zoológico", "Cafés do centro"]}, {"n": 5, "name": "SANTA LUZIA", "from": "23.12", "to": "26.12", "base": "Casa da Família (sogros)", "leg": "Desde Varginha: BR-381 (Fernão Dias). O trecho direto de São Thomé era ~330 km e 5h", "links": [["Dias 7 e 8 · Natal", "d24"], ["Dia 9 · Volta", "d26"]], "hl": ["Ceia de Natal", "Centro Histórico", "Voo 17:55 em Confins"]}];
+var panel=document.getElementById('panel');
+var pins=[].slice.call(document.querySelectorAll('.pin'));
+pins[0].classList.add('bh');pins[4].classList.add('sl');
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function show(i){
+  var s=STOPS[i];
+  pins.forEach(function(p,k){p.setAttribute('aria-pressed',k===i?'true':'false')});
+  var ft=s.from===s.to?'<span>DIA</span><b>'+s.from+'</b>':'<span>DE</span><b>'+s.from+'</b><span>A</span><b>'+s.to+'</b>';
+  panel.innerHTML='<span class="ptag">PARADA 0'+s.n+'</span><div class="pname"><h3>'+esc(s.name)+'</h3></div>'
+   +'<div class="ft">'+ft+'</div><p class="pbase"><b>Base:</b> '+esc(s.base)+'</p><p class="pleg">'+esc(s.leg)+'</p>'
+   +'<ul class="plist">'+s.hl.map(function(h){return '<li><span>'+esc(h)+'</span><i>●</i></li>'}).join('')+'</ul>'
+   +'<div class="plinks">'+s.links.map(function(l){return '<a href="#'+l[1]+'">'+esc(l[0])+' →</a>'}).join('')+'</div>';
+}
+pins.forEach(function(p,k){p.addEventListener('click',function(){show(k)})});
+show(0);
+// contagem
+(function(){
+  var el=document.getElementById('count');
+  var start=Date.UTC(2026,11,18,6,25), end=Date.UTC(2026,11,27,3,25), now=Date.now();
+  if(now<start){var d=Math.ceil((start-now)/864e5);el.textContent='Faltam '+d+(d===1?' dia':' dias')+' · PVH → CNF em 18/12'}
+  else if(now<end){el.textContent='A viagem está acontecendo. Boa estrada!'}
+  else{el.textContent='Viagem concluída. Que saudade de Minas!'}
+})();
+// abas
+var tb=[document.getElementById('t1'),document.getElementById('t2')],pn=[document.getElementById('p1'),document.getElementById('p2')];
+tb.forEach(function(b,k){b.addEventListener('click',function(){tb.forEach(function(x,j){x.setAttribute('aria-selected',j===k?'true':'false');pn[j].hidden=j!==k})})});
+</script>
+</body>
+</html>
